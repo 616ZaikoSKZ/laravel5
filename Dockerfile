@@ -1,24 +1,28 @@
+FROM php:8.2-fpm
 
-FROM php:8.2-apache
-
+# Instalar dependencias del sistema
 RUN apt-get update && apt-get install -y \
     git curl zip unzip libzip-dev libpng-dev libonig-dev libxml2-dev \
-    && docker-php-ext-install pdo_mysql mbstring zip exif pcntl
+    && docker-php-ext-install pdo pdo_mysql zip
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# Instalar Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-COPY . /var/www/html
+# Establecer directorio de trabajo
+WORKDIR /var/www
 
-RUN chown -R www-data:www-data /var/www/html
+# Copiar archivos del proyecto
+COPY . .
 
-WORKDIR /var/www/html
-
+# Instalar dependencias de Laravel
 RUN composer install --no-dev --optimize-autoloader
 
-RUN a2enmod rewrite
+# Permisos
+RUN chown -R www-data:www-data /var/www \
+    && chmod -R 755 /var/www/storage /var/www/bootstrap/cache
 
-COPY .docker/vhost.conf /etc/apache2/sites-available/000-default.conf
+# Exponer el puerto que usará Laravel
+EXPOSE 8080
 
-EXPOSE 80
-
-CMD ["apache2-foreground"]
+# Comando de inicio del servidor
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]

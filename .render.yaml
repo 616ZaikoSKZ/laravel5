@@ -1,0 +1,10 @@
+
+services:
+  - type: web
+    name: laravel12-app
+    env: docker
+    plan: free
+    repo: https://github.com/fer-privacy/project_laravel
+    region: oregon
+    buildCommand: "echo 'Dockerfile already handles build'"
+    startCommand: "echo 'Dockerfile already handles start'"
