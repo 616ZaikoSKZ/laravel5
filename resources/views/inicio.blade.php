@@ -52,21 +52,18 @@
         }
 
         /* Sección de Video */
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            max-width: 100%;
-            background: #000;
-        }
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
+    .video-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px; /* Espacio entre los videos */
+        justify-content: center;
+    }
+
+    .video-container iframe {
+        flex: 1 1 45%; /* Ajusta el ancho de los videos */
+        max-width: 500px; /* Tamaño máximo opcional */
+        height: 280px; /* Altura fija para los videos */
+    }
 
         /* Testimonios */
         .testimonial {
@@ -166,6 +163,7 @@
         <h2 class="section-title">Aprende más sobre Ciberseguridad</h2>
         <div class="video-container">
             <iframe src="https://www.youtube.com/embed/VdGzPZ31ts8" frameborder="0" allowfullscreen></iframe>
+            <iframe src="https://www.youtube.com/embed/L906Kti3gzE" frameborder="0" allowfullscreen></iframe>
         </div>
     </section>
 
